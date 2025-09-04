@@ -37,7 +37,13 @@ const Results = () => {
     { name: 'Unknown Bacterium A', abundance: 4.8, status: 'Novel' }
   ];
 
-  const COLORS = ['hsl(var(--primary))', 'hsl(var(--success))', 'hsl(var(--warning))', 'hsl(var(--accent))', 'hsl(var(--muted))'];
+  const COLORS = [
+    'hsl(var(--primary))', 
+    'hsl(var(--success))', 
+    'hsl(var(--warning))', 
+    'hsl(var(--accent))', 
+    'hsl(var(--destructive))'
+  ];
 
   return (
     <div className="space-y-6">
@@ -128,7 +134,9 @@ const Results = () => {
                     cy="50%"
                     labelLine={false}
                     label={({ name, percentage }) => `${name} ${percentage}%`}
-                    outerRadius={80}
+                    outerRadius={100}
+                    stroke="hsl(var(--background))"
+                    strokeWidth={2}
                     fill="#8884d8"
                     dataKey="count"
                   >
@@ -164,7 +172,11 @@ const Results = () => {
         <CardContent>
           <div className="space-y-4">
             {topSpecies.map((species, index) => (
-              <div key={species.name} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+              <div key={species.name} className={`flex items-center justify-between p-4 rounded-lg transition-all duration-300 ${
+                species.status === 'Novel' 
+                  ? 'bg-gradient-to-r from-warning/10 to-accent/10 border border-warning/30 shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_25px_rgba(0,0,0,0.15)] transform hover:-translate-y-0.5' 
+                  : 'bg-muted/30 hover:bg-muted/40'
+              }`}>
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full text-sm font-medium text-primary">
                     {index + 1}
