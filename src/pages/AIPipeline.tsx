@@ -7,18 +7,39 @@ import { useState, useEffect } from "react";
 // Force refresh
 
 const AIPipeline = () => {
-  const [currentProgress, setCurrentProgress] = useState(67);
+  const [currentProgress, setCurrentProgress] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
 
-  // Simulate progress updates
+  // Predefined progress stages
+  const progressStages = [
+    { step: 0, progress: 0, duration: 2000 },    // Start
+    { step: 0, progress: 100, duration: 3000 },  // Complete step 1
+    { step: 1, progress: 0, duration: 1000 },    // Start step 2
+    { step: 1, progress: 67, duration: 4000 },   // Current step 2 progress
+    { step: 1, progress: 100, duration: 2000 },  // Complete step 2
+    { step: 2, progress: 0, duration: 1000 },    // Start step 3
+    { step: 2, progress: 100, duration: 8000 },  // Complete step 3
+    { step: 3, progress: 0, duration: 1000 },    // Start step 4
+    { step: 3, progress: 100, duration: 12000 }, // Complete step 4
+  ];
+
+  const [stageIndex, setStageIndex] = useState(3); // Start at step 2 with 67% progress
+
+  // Simulate realistic pipeline progress
   useEffect(() => {
-    if (isRunning && currentProgress < 100) {
-      const timer = setInterval(() => {
-        setCurrentProgress(prev => Math.min(prev + 1, 100));
-      }, 2000);
-      return () => clearInterval(timer);
+    if (isRunning && stageIndex < progressStages.length - 1) {
+      const timer = setTimeout(() => {
+        setStageIndex(prev => prev + 1);
+        const nextStage = progressStages[stageIndex + 1];
+        if (nextStage) {
+          setCurrentStep(nextStage.step);
+          setCurrentProgress(nextStage.progress);
+        }
+      }, progressStages[stageIndex].duration);
+      return () => clearTimeout(timer);
     }
-  }, [isRunning, currentProgress]);
+  }, [isRunning, stageIndex]);
 
   const pipelineSteps = [
     {
@@ -26,9 +47,9 @@ const AIPipeline = () => {
       name: "Sequence Embedding",
       description: "Transform DNA sequences into high-dimensional vector representations",
       icon: Dna,
-      status: "completed",
-      progress: 100,
-      duration: "2.3 min",
+      status: currentStep >= 0 ? (currentStep > 0 ? "completed" : "running") : "pending",
+      progress: currentStep === 0 ? currentProgress : (currentStep > 0 ? 100 : 0),
+      duration: currentStep === 0 ? "2.3 min remaining" : (currentStep > 0 ? "2.3 min" : "Est. 3 min"),
       color: "bg-success"
     },
     {
@@ -36,9 +57,9 @@ const AIPipeline = () => {
       name: "Unsupervised Clustering",
       description: "Group similar sequences using advanced clustering algorithms",
       icon: Brain,
-      status: "running",
-      progress: 67,
-      duration: "5.2 min remaining",
+      status: currentStep >= 1 ? (currentStep > 1 ? "completed" : "running") : "pending",
+      progress: currentStep === 1 ? currentProgress : (currentStep > 1 ? 100 : 0),
+      duration: currentStep === 1 ? "5.2 min remaining" : (currentStep > 1 ? "3.8 min" : "Est. 6 min"),
       color: "bg-primary"
     },
     {
@@ -46,9 +67,9 @@ const AIPipeline = () => {
       name: "Taxonomic Assignment",
       description: "Assign taxonomic classifications to sequence clusters",
       icon: Search,
-      status: "pending",
-      progress: 0,
-      duration: "Est. 8 min",
+      status: currentStep >= 2 ? (currentStep > 2 ? "completed" : "running") : "pending",
+      progress: currentStep === 2 ? currentProgress : (currentStep > 2 ? 100 : 0),
+      duration: currentStep === 2 ? "8.4 min remaining" : (currentStep > 2 ? "8.4 min" : "Est. 8 min"),
       color: "bg-muted"
     },
     {
@@ -56,9 +77,9 @@ const AIPipeline = () => {
       name: "Novelty Detection",
       description: "Identify potentially novel taxa and genetic variants",
       icon: Microscope,
-      status: "pending",
-      progress: 0,
-      duration: "Est. 12 min",
+      status: currentStep >= 3 ? (currentStep > 3 ? "completed" : "running") : "pending",
+      progress: currentStep === 3 ? currentProgress : (currentStep > 3 ? 100 : 0),
+      duration: currentStep === 3 ? "12.1 min remaining" : (currentStep > 3 ? "12.1 min" : "Est. 12 min"),
       color: "bg-muted"
     }
   ];

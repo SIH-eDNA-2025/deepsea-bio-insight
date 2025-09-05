@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface UploadedFile {
   id: string;
@@ -27,6 +28,7 @@ interface UploadedFile {
 
 const Upload = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
@@ -145,15 +147,13 @@ const Upload = () => {
 
     toast({
       title: "Analysis started",
-      description: "Your eDNA analysis has been queued and will begin processing shortly"
+      description: "Redirecting to AI Pipeline for processing..."
     });
 
-    // Reset form
-    setFiles([]);
-    setProjectName("");
-    setDescription("");
-    setLocation("");
-    setCollectionDate("");
+    // Navigate to AI Pipeline
+    setTimeout(() => {
+      navigate("/ai-pipeline");
+    }, 1500);
   };
 
   return (
