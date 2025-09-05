@@ -7,6 +7,7 @@ import Layout from "./components/layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Upload from "./pages/Upload";
+import AIPipeline from "./pages/AIPipeline";
 import Results from "./pages/Results";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/" element={<Dashboard />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/upload" element={<Upload />} />
+            <Route path="/ai-pipeline" element={<AIPipeline />} />
             <Route path="/results" element={<Results />} />
             <Route path="/results/:id" element={<Results />} />
             <Route path="/profile" element={<Profile />} />

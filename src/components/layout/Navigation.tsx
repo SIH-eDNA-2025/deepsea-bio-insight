@@ -8,7 +8,8 @@ import {
   User, 
   Menu,
   X,
-  Waves
+  Waves,
+  Brain
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ const Navigation = () => {
     { href: "/", label: "Dashboard", icon: Home },
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/upload", label: "Upload Data", icon: Upload },
+    { href: "/ai-pipeline", label: "AI Pipeline", icon: Brain },
     { href: "/results", label: "Results", icon: BarChart3 },
     { href: "/profile", label: "Profile", icon: User },
   ];
