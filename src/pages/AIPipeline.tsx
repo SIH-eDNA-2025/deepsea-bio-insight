@@ -4,6 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Dna, Brain, Search, Microscope, TreePine, Settings, RotateCcw, Pause, Play, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
+// Force refresh
 
 const AIPipeline = () => {
   const [currentProgress, setCurrentProgress] = useState(67);
